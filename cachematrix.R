@@ -3,15 +3,18 @@
 ## Create a matrix object
 
 makeCacheMatrix <- function(x = matrix()) {
-  theMatrix <<- x
-  inverseMatrix <<- NULL
-  setInverse <- function(i) {
-    inverseMatrix <<- i
+  inverseMatrix <- NULL
+  set <- function(y) {
+      x <<- y
+      inverseMatrix <<- NULL
   }
-  getInverse <- function() inverseMatrix
-  getMatrix <- function() theMatrix
+  get <- function() x
   
-  list(getMatrix = getMatrix, setInverse = setInverse, getInverse = getInverse)
+  setInverse <- function(i) inverseMatrix <<- i
+  getInverse <- function() inverseMatrix
+
+  
+  list(set = set, get = get, setInverse = setInverse, getInverse = getInverse)
 }
 
 ## Return a matrix that is the inverse of 'x'
@@ -24,7 +27,7 @@ cacheSolve <- function(x, ...) {
   }
   
   # Compute the inverse from the original matrix
-  theMatrix <- x$getMatrix()
+  theMatrix <- x$get()
   theInverse <- solve(theMatrix, ...)
   x$setInverse(theInverse)
   
